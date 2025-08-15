@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INR USD Exchange Rates - Live Currency Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">
+                <span class="currency-symbol">₹</span>
+                Currency Exchange Tracker
+                <span class="currency-symbol">$</span>
+            </h1>
+            <p class="subtitle">Real-time exchange rates updated every minute</p>
+        </header>
+
+        <main class="main-content">
+            <div class="loading-spinner" id="loadingSpinner">
+                <div class="spinner"></div>
+                <p>Loading exchange rates...</p>
+            </div>
+
+            <div class="rates-container" id="ratesContainer" style="display: none;">
+                <div class="rate-card primary">
+                    <div class="rate-header">
+                        <div class="currency-pair">
+                            <span class="from-currency">USD</span>
+                            <span class="arrow">→</span>
+                            <span class="to-currency">INR</span>
+                        </div>
+                        <div class="rate-value" id="usdInrRate">--</div>
+                    </div>
+                    <div class="rate-description">US Dollar to Indian Rupee</div>
+                </div>
+
+                <div class="rate-card">
+                    <div class="rate-header">
+                        <div class="currency-pair">
+                            <span class="from-currency">EUR</span>
+                            <span class="arrow">→</span>
+                            <span class="to-currency">INR</span>
+                        </div>
+                        <div class="rate-value" id="eurInrRate">--</div>
+                    </div>
+                    <div class="rate-description">Euro to Indian Rupee</div>
+                </div>
+
+                <div class="rate-card">
+                    <div class="rate-header">
+                        <div class="currency-pair">
+                            <span class="from-currency">GBP</span>
+                            <span class="arrow">→</span>
+                            <span class="to-currency">INR</span>
+                        </div>
+                        <div class="rate-value" id="gbpInrRate">--</div>
+                    </div>
+                    <div class="rate-description">British Pound to Indian Rupee</div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="last-updated">
+                    <span>Last updated: </span>
+                    <span id="lastUpdated">--</span>
+                </div>
+                
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">📧</div>
+                        <div class="feature-text">
+                            <h3>Daily Email Updates</h3>
+                            <p>Automated email notifications every weekday at 9:00 AM PST</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">🔄</div>
+                        <div class="feature-text">
+                            <h3>Real-time Data</h3>
+                            <p>Exchange rates updated from reliable financial APIs</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature">
+                        <div class="feature-icon">📱</div>
+                        <div class="feature-text">
+                            <h3>Mobile Friendly</h3>
+                            <p>Responsive design works perfectly on all devices</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="converter-section">
+                <h2>Currency Converter</h2>
+                <div class="converter">
+                    <div class="converter-input">
+                        <input type="number" id="amountInput" placeholder="Enter amount" value="1" min="0" step="0.01">
+                        <select id="fromCurrency">
+                            <option value="USD" selected>USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                    <div class="converter-arrow">=</div>
+                    <div class="converter-result">
+                        <span id="convertedAmount">--</span>
+                        <span class="result-currency">INR</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 Currency Exchange Tracker. Data provided by ExchangeRate-API.</p>
+        </footer>
+    </div>
+
+    <script>
+        let currentRates = {};
+
+        async function fetchRates() {
+            try {
+                const response = await fetch('/api/rates');
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentRates = data.rates;
+                    updateRateDisplay(data.rates);
+                    updateLastUpdated(data.timestamp);
+                    updateConverter();
+                    
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    document.getElementById('ratesContainer').style.display = 'block';
+                } else {
+                    throw new Error(data.error || 'Failed to fetch rates');
+                }
+            } catch (error) {
+                console.error('Error fetching rates:', error);
+                document.getElementById('loadingSpinner').innerHTML = 
+                    '<p style="color: #e74c3c;">Error loading rates. Please refresh the page.</p>';
+            }
+        }
+
+        function updateRateDisplay(rates) {
+            document.getElementById('usdInrRate').textContent = 
+                rates.USD_to_INR ? `₹${rates.USD_to_INR.toFixed(4)}` : '--';
+            document.getElementById('eurInrRate').textContent = 
+                rates.EUR_to_INR ? `₹${rates.EUR_to_INR.toFixed(4)}` : '--';
+            document.getElementById('gbpInrRate').textContent = 
+                rates.GBP_to_INR ? `₹${rates.GBP_to_INR.toFixed(4)}` : '--';
+        }
+
+        function updateLastUpdated(timestamp) {
+            const date = new Date(timestamp);
+            document.getElementById('lastUpdated').textContent = 
+                date.toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZoneName: 'short'
+                });
+        }
+
+        function updateConverter() {
+            const amount = parseFloat(document.getElementById('amountInput').value) || 1;
+            const fromCurrency = document.getElementById('fromCurrency').value;
+            
+            let rate;
+            switch(fromCurrency) {
+                case 'USD':
+                    rate = currentRates.USD_to_INR;
+                    break;
+                case 'EUR':
+                    rate = currentRates.EUR_to_INR;
+                    break;
+                case 'GBP':
+                    rate = currentRates.GBP_to_INR;
+                    break;
+                default:
+                    rate = null;
+            }
+            
+            if (rate) {
+                const converted = amount * rate;
+                document.getElementById('convertedAmount').textContent = 
+                    `₹${converted.toFixed(2)}`;
+            } else {
+                document.getElementById('convertedAmount').textContent = '--';
+            }
+        }
+
+        // Event listeners
+        document.getElementById('amountInput').addEventListener('input', updateConverter);
+        document.getElementById('fromCurrency').addEventListener('change', updateConverter);
+
+        // Initial load and periodic updates
+        fetchRates();
+        setInterval(fetchRates, 60000); // Update every minute
+    </script>
+</body>
+</html>

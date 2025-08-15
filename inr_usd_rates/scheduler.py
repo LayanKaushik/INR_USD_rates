@@ -1,6 +1,8 @@
 import schedule
 import time
 import logging
+import pytz
+from datetime import datetime
 from .exchange_rate_tracker import ExchangeRateTracker
 from .email_notifier import EmailNotifier
 
@@ -32,15 +34,34 @@ class RateScheduler:
         else:
             logger.error("Failed to fetch exchange rate")
     
-    def schedule_weekday_notifications(self, time_str: str = "08:00"):
-        """Schedule notifications for weekdays at specified time."""
+    def schedule_weekday_notifications(self, time_str: str = "08:00", timezone: str = "UTC"):
+        """Schedule notifications for weekdays at specified time in given timezone."""
+        if timezone == "US/Pacific":
+            # Convert PST/PDT time to UTC for consistent scheduling
+            pst = pytz.timezone('US/Pacific')
+            utc = pytz.UTC
+            
+            # Create a dummy datetime to get the UTC offset
+            now = datetime.now(pst)
+            utc_offset = now.utcoffset().total_seconds() / 3600
+            
+            # Parse the time string
+            hour, minute = map(int, time_str.split(':'))
+            
+            # Convert to UTC
+            utc_hour = (hour - int(utc_offset)) % 24
+            utc_time_str = f"{utc_hour:02d}:{minute:02d}"
+            
+            logger.info(f"Converting {time_str} PST to {utc_time_str} UTC")
+            time_str = utc_time_str
+        
         schedule.every().monday.at(time_str).do(self.job)
         schedule.every().tuesday.at(time_str).do(self.job)
         schedule.every().wednesday.at(time_str).do(self.job)
         schedule.every().thursday.at(time_str).do(self.job)
         schedule.every().friday.at(time_str).do(self.job)
         
-        logger.info(f"Exchange rate scheduler started. Will send emails on weekdays at {time_str}")
+        logger.info(f"Exchange rate scheduler started. Will send emails on weekdays at {time_str} (timezone: {timezone})")
     
     def run(self):
         """Run the scheduler main loop."""

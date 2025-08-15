@@ -10,5 +10,6 @@ __email__ = "your.email@example.com"
 
 from .exchange_rate_tracker import ExchangeRateTracker
 from .email_notifier import EmailNotifier
+from .scheduler import RateScheduler
 
-__all__ = ["ExchangeRateTracker", "EmailNotifier"]
+__all__ = ["ExchangeRateTracker", "EmailNotifier", "RateScheduler"]

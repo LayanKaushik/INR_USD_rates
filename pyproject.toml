@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inr-usd-rates"
+version = "1.0.0"
+description = "Automated USD to INR exchange rate tracking and email notifications"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "requests>=2.25.0",
+    "schedule>=1.1.0",
+]
+
+[project.scripts]
+inr-usd-rates = "inr_usd_rates.main:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/inr-usd-rates"
+Issues = "https://github.com/yourusername/inr-usd-rates/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["inr_usd_rates*"]

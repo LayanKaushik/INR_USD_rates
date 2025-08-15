@@ -121,10 +121,6 @@ black inr_usd_rates/
 - requests>=2.25.0
 - schedule>=1.1.0
 
-## License
-
-MIT License - see LICENSE file for details.
-
 ## Contributing
 
 1. Fork the repository

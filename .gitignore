@@ -163,6 +163,9 @@ cython_debug/
 # VS Code
 .vscode/
 
+# Claude Code IDE
+.claude/
+
 # Application specific
 currency_tracker.log
 *.db

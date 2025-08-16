@@ -154,11 +154,28 @@ cython_debug/
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+#  be added to the global gitignore or merged into this project gitignore.  For a PyCharm
+#  project, it is generally recommended to exclude cache/ and databases from version control.
+#  However, it is generally not recommended to exclude .idea/ from version control if it is
+#  part of the project, since it may contain custom settings and configurations.
+.idea/
 
-# folders
+# VS Code
+.vscode/
 
-.claude
+# Application specific
+currency_tracker.log
+*.db
+.DS_Store
+Thumbs.db
+
+# Local development
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Backup files
+*.bak
+*.backup
+*~

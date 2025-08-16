@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: inr-usd-rates
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT inr_usd_rates.web_app:app
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: PYTHON_VERSION
+        value: 3.9.16
+      - key: EMAIL_ADDRESS
+        value: layankaushik13@gmail.com
+      - key: RECIPIENT_EMAIL  
+        value: layankaushik13@gmail.com
+      - key: EMAIL_PASSWORD
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: NOTIFICATION_TIME
+        value: "09:00"
+      - key: TIMEZONE
+        value: "US/Pacific"
+  
+  - type: cron
+    name: daily-email-notifications
+    env: python
+    buildCommand: pip install -r requirements.txt
+    schedule: "0 17 * * 1-5"  # 9 AM PST = 5 PM UTC (weekdays)
+    startCommand: python -c "
+      from inr_usd_rates import ExchangeRateTracker, EmailNotifier;
+      import os;
+      tracker = ExchangeRateTracker();
+      notifier = EmailNotifier();
+      rate = tracker.get_exchange_rate();
+      if rate: notifier.send_rate_notification(rate, 'USD', 'INR')
+      "
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: EMAIL_ADDRESS
+        value: layankaushik13@gmail.com
+      - key: RECIPIENT_EMAIL
+        value: layankaushik13@gmail.com
+      - key: EMAIL_PASSWORD
+        sync: false

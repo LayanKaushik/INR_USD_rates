@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - ENVIRONMENT=production
+      - EMAIL_ADDRESS=layankaushik13@gmail.com
+      - RECIPIENT_EMAIL=layankaushik13@gmail.com
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - SECRET_KEY=${SECRET_KEY:-dev-secret-key}
+      - NOTIFICATION_TIME=09:00
+      - TIMEZONE=US/Pacific
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  scheduler:
+    build: .
+    command: python -m inr_usd_rates.main
+    environment:
+      - ENVIRONMENT=production
+      - EMAIL_ADDRESS=layankaushik13@gmail.com
+      - RECIPIENT_EMAIL=layankaushik13@gmail.com
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - ENABLE_EMAIL_SCHEDULER=true
+      - NOTIFICATION_TIME=09:00
+      - TIMEZONE=US/Pacific
+    restart: unless-stopped
+    depends_on:
+      - web

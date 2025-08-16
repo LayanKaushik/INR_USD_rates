@@ -1,0 +1,63 @@
+{
+  "name": "INR USD Rates",
+  "description": "Real-time currency exchange rates with automated email notifications",
+  "repository": "https://github.com/LayanKaushik/INR_USD_rates",
+  "logo": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png",
+  "keywords": ["currency", "exchange", "rates", "inr", "usd", "flask", "python"],
+  "image": "heroku/python",
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "env": {
+    "ENVIRONMENT": {
+      "description": "Application environment",
+      "value": "production"
+    },
+    "EMAIL_ADDRESS": {
+      "description": "Gmail address for sending notifications",
+      "value": "layankaushik13@gmail.com"
+    },
+    "RECIPIENT_EMAIL": {
+      "description": "Email address to receive notifications",
+      "value": "layankaushik13@gmail.com"
+    },
+    "EMAIL_PASSWORD": {
+      "description": "Gmail app password (required for email notifications)",
+      "required": false
+    },
+    "SECRET_KEY": {
+      "description": "Secret key for Flask application",
+      "generator": "secret"
+    },
+    "NOTIFICATION_TIME": {
+      "description": "Time for daily notifications (24h format)",
+      "value": "09:00"
+    },
+    "TIMEZONE": {
+      "description": "Timezone for notifications",
+      "value": "US/Pacific"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:mini",
+      "options": {
+        "version": "14"
+      }
+    },
+    {
+      "plan": "scheduler:standard"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "echo 'Deployment complete! Set EMAIL_PASSWORD environment variable for email notifications.'"
+  }
+}

@@ -4,19 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INR USD Exchange Rates - Live Currency Tracker</title>
+    <meta name="description" content="Real-time currency exchange rates with automated email notifications. Track USD, EUR, GBP to INR with beautiful interface.">
+    <meta name="keywords" content="currency exchange, INR, USD, exchange rates, live rates, currency converter">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+    </button>
+    
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+    </div>
+    
     <div class="container">
         <header class="header">
-            <h1 class="title">
-                <span class="currency-symbol">₹</span>
-                Currency Exchange Tracker
-                <span class="currency-symbol">$</span>
-            </h1>
-            <p class="subtitle">Real-time exchange rates updated every minute</p>
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h1 class="title">
+                        <span class="currency-symbol animated">₹</span>
+                        <span class="title-text">Currency Exchange Tracker</span>
+                        <span class="currency-symbol animated">$</span>
+                    </h1>
+                </div>
+                <p class="subtitle">
+                    <i class="fas fa-sync-alt rotating"></i>
+                    Real-time exchange rates updated every minute
+                </p>
+                <div class="live-indicator">
+                    <span class="pulse-dot"></span>
+                    <span>LIVE</span>
+                </div>
+            </div>
         </header>
 
         <main class="main-content">
@@ -29,49 +63,98 @@
                 <div class="rate-card primary">
                     <div class="rate-header">
                         <div class="currency-pair">
-                            <span class="from-currency">USD</span>
-                            <span class="arrow">→</span>
-                            <span class="to-currency">INR</span>
+                            <div class="currency-flag">
+                                <span class="flag">🇺🇸</span>
+                                <span class="from-currency">USD</span>
+                            </div>
+                            <div class="arrow-container">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="currency-flag">
+                                <span class="flag">🇮🇳</span>
+                                <span class="to-currency">INR</span>
+                            </div>
                         </div>
-                        <div class="rate-value" id="usdInrRate">--</div>
+                        <div class="rate-value-container">
+                            <div class="rate-value" id="usdInrRate">--</div>
+                            <div class="rate-change" id="usdChange">--</div>
+                        </div>
                     </div>
-                    <div class="rate-description">US Dollar to Indian Rupee</div>
+                    <div class="rate-description">
+                        <i class="fas fa-star"></i>
+                        US Dollar to Indian Rupee
+                    </div>
                 </div>
 
                 <div class="rate-card">
                     <div class="rate-header">
                         <div class="currency-pair">
-                            <span class="from-currency">EUR</span>
-                            <span class="arrow">→</span>
-                            <span class="to-currency">INR</span>
+                            <div class="currency-flag">
+                                <span class="flag">🇪🇺</span>
+                                <span class="from-currency">EUR</span>
+                            </div>
+                            <div class="arrow-container">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="currency-flag">
+                                <span class="flag">🇮🇳</span>
+                                <span class="to-currency">INR</span>
+                            </div>
                         </div>
-                        <div class="rate-value" id="eurInrRate">--</div>
+                        <div class="rate-value-container">
+                            <div class="rate-value" id="eurInrRate">--</div>
+                            <div class="rate-change" id="eurChange">--</div>
+                        </div>
                     </div>
-                    <div class="rate-description">Euro to Indian Rupee</div>
+                    <div class="rate-description">
+                        <i class="fas fa-euro-sign"></i>
+                        Euro to Indian Rupee
+                    </div>
                 </div>
 
                 <div class="rate-card">
                     <div class="rate-header">
                         <div class="currency-pair">
-                            <span class="from-currency">GBP</span>
-                            <span class="arrow">→</span>
-                            <span class="to-currency">INR</span>
+                            <div class="currency-flag">
+                                <span class="flag">🇬🇧</span>
+                                <span class="from-currency">GBP</span>
+                            </div>
+                            <div class="arrow-container">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="currency-flag">
+                                <span class="flag">🇮🇳</span>
+                                <span class="to-currency">INR</span>
+                            </div>
                         </div>
-                        <div class="rate-value" id="gbpInrRate">--</div>
+                        <div class="rate-value-container">
+                            <div class="rate-value" id="gbpInrRate">--</div>
+                            <div class="rate-change" id="gbpChange">--</div>
+                        </div>
                     </div>
-                    <div class="rate-description">British Pound to Indian Rupee</div>
+                    <div class="rate-description">
+                        <i class="fas fa-pound-sign"></i>
+                        British Pound to Indian Rupee
+                    </div>
                 </div>
             </div>
 
             <div class="info-section">
                 <div class="last-updated">
+                    <i class="fas fa-clock"></i>
                     <span>Last updated: </span>
                     <span id="lastUpdated">--</span>
+                    <div class="update-status" id="updateStatus">
+                        <span class="status-dot"></span>
+                        <span>Connected</span>
+                    </div>
                 </div>
                 
                 <div class="features">
                     <div class="feature">
-                        <div class="feature-icon">📧</div>
+                        <div class="feature-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
                         <div class="feature-text">
                             <h3>Daily Email Updates</h3>
                             <p>Automated email notifications every weekday at 9:00 AM PST</p>
@@ -79,7 +162,9 @@
                     </div>
                     
                     <div class="feature">
-                        <div class="feature-icon">🔄</div>
+                        <div class="feature-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
                         <div class="feature-text">
                             <h3>Real-time Data</h3>
                             <p>Exchange rates updated from reliable financial APIs</p>
@@ -87,7 +172,9 @@
                     </div>
                     
                     <div class="feature">
-                        <div class="feature-icon">📱</div>
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
                         <div class="feature-text">
                             <h3>Mobile Friendly</h3>
                             <p>Responsive design works perfectly on all devices</p>
@@ -97,43 +184,111 @@
             </div>
 
             <div class="converter-section">
-                <h2>Currency Converter</h2>
+                <div class="section-header">
+                    <h2><i class="fas fa-calculator"></i> Currency Converter</h2>
+                    <p>Convert currencies with live exchange rates</p>
+                </div>
                 <div class="converter">
                     <div class="converter-input">
-                        <input type="number" id="amountInput" placeholder="Enter amount" value="1" min="0" step="0.01">
-                        <select id="fromCurrency">
-                            <option value="USD" selected>USD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="GBP">GBP</option>
-                        </select>
+                        <div class="input-group">
+                            <label for="amountInput">Amount</label>
+                            <input type="number" id="amountInput" placeholder="Enter amount" value="1" min="0" step="0.01">
+                        </div>
+                        <div class="select-group">
+                            <label for="fromCurrency">From</label>
+                            <select id="fromCurrency">
+                                <option value="USD" selected>🇺🇸 USD</option>
+                                <option value="EUR">🇪🇺 EUR</option>
+                                <option value="GBP">🇬🇧 GBP</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="converter-arrow">=</div>
+                    <div class="converter-arrow">
+                        <i class="fas fa-equals"></i>
+                    </div>
                     <div class="converter-result">
-                        <span id="convertedAmount">--</span>
-                        <span class="result-currency">INR</span>
+                        <div class="result-label">Result</div>
+                        <div class="result-amount">
+                            <span id="convertedAmount">--</span>
+                            <span class="result-currency">🇮🇳 INR</span>
+                        </div>
                     </div>
+                </div>
+                
+                <!-- Quick Convert Buttons -->
+                <div class="quick-convert">
+                    <span class="quick-label">Quick Convert:</span>
+                    <button class="quick-btn" onclick="setAmount(100)">$100</button>
+                    <button class="quick-btn" onclick="setAmount(500)">$500</button>
+                    <button class="quick-btn" onclick="setAmount(1000)">$1000</button>
+                    <button class="quick-btn" onclick="setAmount(5000)">$5000</button>
                 </div>
             </div>
         </main>
 
         <footer class="footer">
-            <p>&copy; 2024 Currency Exchange Tracker. Data provided by ExchangeRate-API.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-chart-line"></i> Currency Tracker</h4>
+                    <p>Real-time exchange rates and automated notifications</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-info-circle"></i> Features</h4>
+                    <ul>
+                        <li>Live exchange rates</li>
+                        <li>Email notifications</li>
+                        <li>Mobile responsive</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-link"></i> API</h4>
+                    <p>Data provided by <a href="https://exchangerate-api.com" target="_blank">ExchangeRate-API</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Currency Exchange Tracker. Made with ❤️ by Layan Kaushik</p>
+            </div>
         </footer>
     </div>
 
     <script>
         let currentRates = {};
+        let previousRates = {};
 
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Load theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.classList.add(savedTheme + '-theme');
+        
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('light-theme')) {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Enhanced rate fetching with error handling
         async function fetchRates() {
             try {
+                updateConnectionStatus('connecting');
                 const response = await fetch('/api/rates');
                 const data = await response.json();
                 
                 if (data.success) {
+                    previousRates = { ...currentRates };
                     currentRates = data.rates;
                     updateRateDisplay(data.rates);
                     updateLastUpdated(data.timestamp);
                     updateConverter();
+                    updateConnectionStatus('connected');
                     
                     document.getElementById('loadingSpinner').style.display = 'none';
                     document.getElementById('ratesContainer').style.display = 'block';
@@ -142,18 +297,69 @@
                 }
             } catch (error) {
                 console.error('Error fetching rates:', error);
+                updateConnectionStatus('error');
                 document.getElementById('loadingSpinner').innerHTML = 
-                    '<p style="color: #e74c3c;">Error loading rates. Please refresh the page.</p>';
+                    '<div class="error-message"><i class="fas fa-exclamation-triangle"></i><p>Error loading rates. Retrying...</p></div>';
+                
+                // Retry after 10 seconds
+                setTimeout(fetchRates, 10000);
+            }
+        }
+
+        function updateConnectionStatus(status) {
+            const statusElement = document.getElementById('updateStatus');
+            const statusDot = statusElement.querySelector('.status-dot');
+            const statusText = statusElement.querySelector('span:last-child');
+            
+            statusElement.className = 'update-status ' + status;
+            
+            switch(status) {
+                case 'connected':
+                    statusText.textContent = 'Connected';
+                    break;
+                case 'connecting':
+                    statusText.textContent = 'Updating...';
+                    break;
+                case 'error':
+                    statusText.textContent = 'Connection Error';
+                    break;
             }
         }
 
         function updateRateDisplay(rates) {
-            document.getElementById('usdInrRate').textContent = 
-                rates.USD_to_INR ? `₹${rates.USD_to_INR.toFixed(4)}` : '--';
-            document.getElementById('eurInrRate').textContent = 
-                rates.EUR_to_INR ? `₹${rates.EUR_to_INR.toFixed(4)}` : '--';
-            document.getElementById('gbpInrRate').textContent = 
-                rates.GBP_to_INR ? `₹${rates.GBP_to_INR.toFixed(4)}` : '--';
+            updateRate('usdInrRate', 'usdChange', rates.USD_to_INR, previousRates.USD_to_INR);
+            updateRate('eurInrRate', 'eurChange', rates.EUR_to_INR, previousRates.EUR_to_INR);
+            updateRate('gbpInrRate', 'gbpChange', rates.GBP_to_INR, previousRates.GBP_to_INR);
+        }
+
+        function updateRate(rateId, changeId, currentRate, previousRate) {
+            const rateElement = document.getElementById(rateId);
+            const changeElement = document.getElementById(changeId);
+            
+            if (currentRate) {
+                const formattedRate = `₹${currentRate.toFixed(4)}`;
+                rateElement.textContent = formattedRate;
+                
+                // Animate the rate update
+                rateElement.classList.add('rate-updated');
+                setTimeout(() => rateElement.classList.remove('rate-updated'), 1000);
+                
+                // Calculate and display rate change
+                if (previousRate && previousRate !== currentRate) {
+                    const change = currentRate - previousRate;
+                    const changePercent = (change / previousRate * 100).toFixed(2);
+                    const isPositive = change > 0;
+                    
+                    changeElement.textContent = `${isPositive ? '+' : ''}${changePercent}%`;
+                    changeElement.className = `rate-change ${isPositive ? 'positive' : 'negative'}`;
+                } else {
+                    changeElement.textContent = '--';
+                    changeElement.className = 'rate-change';
+                }
+            } else {
+                rateElement.textContent = '--';
+                changeElement.textContent = '--';
+            }
         }
 
         function updateLastUpdated(timestamp) {
@@ -190,20 +396,73 @@
             
             if (rate) {
                 const converted = amount * rate;
-                document.getElementById('convertedAmount').textContent = 
-                    `₹${converted.toFixed(2)}`;
+                const formattedAmount = new Intl.NumberFormat('en-IN', {
+                    style: 'decimal',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(converted);
+                
+                document.getElementById('convertedAmount').textContent = `₹${formattedAmount}`;
+                
+                // Animate conversion
+                const resultElement = document.querySelector('.result-amount');
+                resultElement.classList.add('conversion-updated');
+                setTimeout(() => resultElement.classList.remove('conversion-updated'), 500);
             } else {
                 document.getElementById('convertedAmount').textContent = '--';
             }
         }
 
-        // Event listeners
+        // Quick convert function
+        function setAmount(amount) {
+            document.getElementById('amountInput').value = amount;
+            updateConverter();
+            
+            // Animate the input
+            const input = document.getElementById('amountInput');
+            input.classList.add('input-highlight');
+            setTimeout(() => input.classList.remove('input-highlight'), 300);
+        }
+
+        // Enhanced event listeners
         document.getElementById('amountInput').addEventListener('input', updateConverter);
         document.getElementById('fromCurrency').addEventListener('change', updateConverter);
 
-        // Initial load and periodic updates
-        fetchRates();
-        setInterval(fetchRates, 60000); // Update every minute
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'd':
+                        e.preventDefault();
+                        themeToggle.click();
+                        break;
+                    case 'r':
+                        e.preventDefault();
+                        fetchRates();
+                        break;
+                }
+            }
+        });
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRates();
+            
+            // Set up periodic updates with exponential backoff on errors
+            let updateInterval = 60000; // 1 minute
+            setInterval(() => {
+                fetchRates().catch(() => {
+                    updateInterval = Math.min(updateInterval * 1.5, 300000); // Max 5 minutes
+                });
+            }, updateInterval);
+        });
+
+        // Add service worker for offline capability (if available)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/sw.js').catch(() => {
+                console.log('Service worker registration failed');
+            });
+        }
     </script>
 </body>
 </html>

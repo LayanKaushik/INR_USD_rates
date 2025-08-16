@@ -23,17 +23,15 @@ classifiers = [
 dependencies = [
     "requests>=2.25.0",
     "schedule>=1.1.0",
-    "flask>=2.0.0",
     "pytz>=2021.1",
 ]
 
 [project.scripts]
 inr-usd-rates = "inr_usd_rates.main:main"
-inr-usd-web = "run_web_app:main"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/inr-usd-rates"
-Issues = "https://github.com/yourusername/inr-usd-rates/issues"
+Homepage = "https://github.com/LayanKaushik/INR_USD_rates"
+Issues = "https://github.com/LayanKaushik/INR_USD_rates/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]

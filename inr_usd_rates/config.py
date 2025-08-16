@@ -16,26 +16,15 @@ EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
 NOTIFICATION_TIME = os.getenv('NOTIFICATION_TIME', "09:00")  # 9:00 AM PST
 TIMEZONE = os.getenv('TIMEZONE', "US/Pacific")
 
-# Web App Configuration
-WEB_HOST = os.getenv('HOST', '0.0.0.0')
-WEB_PORT = int(os.getenv('PORT', 5000))
-DEBUG_MODE = not IS_PRODUCTION
-
-# Security Configuration
-SECRET_KEY = os.getenv('SECRET_KEY', 'dev-key-change-in-production')
+# Application Configuration
+# (Web app configurations removed - package only)
 
 # API Configuration
 EXCHANGE_API_URL = os.getenv('EXCHANGE_API_URL', "https://api.exchangerate-api.com/v4/latest")
 API_TIMEOUT = int(os.getenv('API_TIMEOUT', 10))
 
-# Database Configuration (for future use)
-DATABASE_URL = os.getenv('DATABASE_URL')
-
 # Logging Configuration
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO' if IS_PRODUCTION else 'DEBUG')
-
-# Rate Limiting
-RATE_LIMIT_PER_MINUTE = int(os.getenv('RATE_LIMIT_PER_MINUTE', 60))
 
 # Supported Currency Pairs
 SUPPORTED_CURRENCIES = {
@@ -49,9 +38,5 @@ SUPPORTED_CURRENCIES = {
     'CNY': 'Chinese Yuan'
 }
 
-# Production specific settings
-if IS_PRODUCTION:
-    # Disable email scheduler in production (use external cron job instead)
-    ENABLE_EMAIL_SCHEDULER = os.getenv('ENABLE_EMAIL_SCHEDULER', 'false').lower() == 'true'
-else:
-    ENABLE_EMAIL_SCHEDULER = True
+# Email scheduler always enabled for package usage
+ENABLE_EMAIL_SCHEDULER = os.getenv('ENABLE_EMAIL_SCHEDULER', 'true').lower() == 'true'

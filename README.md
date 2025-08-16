@@ -19,7 +19,7 @@ pip install inr-usd-rates
 
 ### From Source
 ```bash
-git clone <repository-url>
+git clone https://github.com/LayanKaushik/INR_USD_rates.git
 cd INR_USD_rates
 pip install -e .
 ```
@@ -95,11 +95,28 @@ scheduler = RateScheduler()
 scheduler.schedule_weekday_notifications("09:30")  # 9:30 AM
 ```
 
+### Environment Variables
+```bash
+# Email Configuration
+EMAIL_ADDRESS=your-email@gmail.com
+EMAIL_PASSWORD=your-gmail-app-password
+RECIPIENT_EMAIL=recipient@example.com
+
+# Scheduler Configuration  
+NOTIFICATION_TIME=09:00
+TIMEZONE=US/Pacific
+ENABLE_EMAIL_SCHEDULER=true
+
+# API Configuration
+EXCHANGE_API_URL=https://api.exchangerate-api.com/v4/latest
+API_TIMEOUT=10
+```
+
 ## Development
 
 ### Setup Development Environment
 ```bash
-git clone <repository-url>
+git clone https://github.com/LayanKaushik/INR_USD_rates.git
 cd INR_USD_rates
 pip install -e .
 pip install pytest black flake8  # Optional dev dependencies
@@ -120,6 +137,7 @@ black inr_usd_rates/
 - Python 3.7+
 - requests>=2.25.0
 - schedule>=1.1.0
+- pytz>=2021.1
 
 ## Contributing
 
@@ -132,7 +150,18 @@ black inr_usd_rates/
 ## Future Enhancements
 
 - Support for more currency pairs
-- Customizable email templates
-- Web dashboard for rate history
-- Multiple notification channels (SMS, Slack, etc.)
+- Historical rate tracking
 - Rate change alerts and thresholds
+- Integration with other notification channels (SMS, Slack, etc.)
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Author
+
+Created by Layan Kaushik
+
+## Support
+
+For issues and feature requests, please visit: https://github.com/LayanKaushik/INR_USD_rates/issues
